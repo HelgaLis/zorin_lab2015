@@ -12,6 +12,7 @@ using  namespace std;
 class SPI {
 private:
 	int client_socket;
+	std::string get_cmd(string &fisrt_line);
 public:
 	SPI(int client_sock);
 	~SPI();
