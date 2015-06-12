@@ -16,31 +16,39 @@
 #include "global.h"
 using namespace std;
 SPI::SPI(int client_sockt) {
-this->client_socket= client_sockt;
+	this->client_socket = client_sockt;
 }
-SPI::~SPI(){
+SPI::~SPI() {
 	close(client_socket);
 }
-void SPI::recieve(){
+void SPI::recieve() {
 	char buffer[MAX_LINE_LEN];
-	unsigned int offset;
+	unsigned int offset = 0;
 	char current_char[1];
-	for(offset=0; offset<sizeof(buffer);offset++){
-		if(recv(client_socket,current_char,1,0)>0){
-
+	while (offset < sizeof(buffer)) {
+		if (recv(client_socket, current_char, 1, 0) > 0) {
+			if (offset == 0
+					&& (current_char[0] == END_OF_LINE[0]
+							|| END_OF_LINE[1] == current_char[0]))
+				continue;
+			else {
+				offset++;
+				buffer[offset] = current_char[0];
+			}
+			if (offset >= 2 && (buffer[offset - 1] == END_OF_LINE[0]
+						&& buffer[offset] == END_OF_LINE[1]))
+					break;
 		}
-		else
-			break;
-
 	}
+	std::cout<<buffer<<endl;
 }
-void SPI::send_msg(string msg){
-	send(client_socket,(void*)msg.c_str(),sizeof(msg),0);
+void SPI::send_msg(string msg) {
+	send(client_socket, (void*) msg.c_str(), sizeof(msg), 0);
 }
-void SPI::run(){
+void SPI::run() {
 	send_msg("Connect to 0.005 server");
 	bool exit = false;
-	while(exit){
+	while (exit) {
 
 	}
 }
