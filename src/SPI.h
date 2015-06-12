@@ -17,6 +17,7 @@ public:
 	~SPI();
 	void send_msg(string msg);
 	void recieve();
+	char* get_msg_line();
 	void run();
 };
 
