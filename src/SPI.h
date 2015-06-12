@@ -15,7 +15,7 @@ private:
 public:
 	SPI(int client_sock);
 	~SPI();
-	void send(string msg);
+	void send_msg(string msg);
 	void recieve();
 	void run();
 };
